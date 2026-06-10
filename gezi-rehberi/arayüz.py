@@ -51,7 +51,7 @@ ui = {
 
 # --- VERİLERİ (MOCK DATA) ---
 # --- VERİLERİ (MOCK DATA) ---
-# Görsellerin düzgün görünmesi için doğrudan çalışan linkler ekledik
+# --- VERİLERİ (MOCK DATA) ---
 if dil_kodu == "tr":
     mekanlar_listesi = [
         {"id": 1, "attributes": {"ad": "Efes Antik Kenti", "Aciklama": "İzmir'in Selçuk ilçesinde bulunan büyüleyici tarihi antik kent.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1585464159976-13d6a457497d?q=80&w=400"}}}}},
@@ -59,11 +59,11 @@ if dil_kodu == "tr":
         {"id": 3, "attributes": {"ad": "Kolezyum", "Aciklama": "İtalya'nın başkenti Roma'da bulunan devasa amfitiyatro.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1552832230-c0c97ddf357e?q=80&w=400"}}}}}
     ]
 else:
+    # İngilizce kısmı aynı yapıda tutuyoruz
     mekanlar_listesi = [
         {"id": 1, "attributes": {"ad": "Ephesus Ancient City", "Aciklama": "Historical ancient city located in Selcuk, Izmir.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1585464159976-13d6a457497d?q=80&w=400"}}}}},
         {"id": 2, "attributes": {"ad": "Cappadocia", "Aciklama": "Fairy tale region famous for fairy chimneys and hot air balloons.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
         {"id": 3, "attributes": {"ad": "Colosseum", "Aciklama": "Massive amphitheater located in Rome, Italy.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1552832230-c0c97ddf357e?q=80&w=400"}}}}}]
-
 mekanlar = mekanlar_listesi
 
 # ÖNCE LİSTEYİ HESAPLA (Mevcut mekan isimlerini çıkar)
@@ -100,29 +100,17 @@ else:
     
     for index, mekan in enumerate(mekanlar_listesi):
         veri = mekan.get('attributes', mekan)
-        
         ad = veri.get('ad', '...')
         aciklama = veri.get('Aciklama', '...')
         puan = veri.get('Puan', 0)
         
-        resim_url = "https://via.placeholder.com/400x200?text=Gorsel+Yok"
-        kapak_resmi = veri.get('KapakResmi')
+        # GÖRSELİ GÜVENLİ ÇEKME MANTIĞI
+        # Tüm yapıyı tek bir standartta okuyoruz
+        try:
+            resim_url = veri['KapakResmi']['data']['attributes']['url']
+        except:
+            resim_url = "https://via.placeholder.com/400x200?text=Gorsel+Yok"
         
-        if kapak_resmi:
-            # Önce resim yolunu alıyoruz
-            temp_url = ""
-            if isinstance(kapak_resmi, dict) and 'url' in kapak_resmi:
-                temp_url = kapak_resmi['url']
-            elif isinstance(kapak_resmi, dict) and 'data' in kapak_resmi and kapak_resmi['data']:
-                temp_url = kapak_resmi['data']['attributes']['url']
-            
-            # EĞER URL ZATEN HTTP İLE BAŞLIYORSA (yani tam link ise), başına Strapi URL'si ekleme!
-            if temp_url.startswith('http'):
-                resim_url = temp_url
-            else:
-                # Sadece yerel dosyalar (Strapi'den gelenler) için başına ekle
-                resim_url = STRAPI_URL + temp_url
-
         with kolonlar[index % 3]:
             with st.container(border=True): 
                 st.image(resim_url, use_container_width=True)
