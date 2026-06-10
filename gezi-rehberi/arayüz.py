@@ -51,19 +51,29 @@ ui = {
 
 # --- VERİLERİ (MOCK DATA) ---
 # --- VERİLERİ (MOCK DATA) ---
-# --- VERİLERİ (MOCK DATA) ---
+# --- VERİLERİ (GÜNCEL LİSTE - 8 MEKAN) ---
 if dil_kodu == "tr":
     mekanlar_listesi = [
         {"id": 1, "attributes": {"ad": "Efes Antik Kenti", "Aciklama": "İzmir'in Selçuk ilçesinde bulunan büyüleyici tarihi antik kent.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1585464159976-13d6a457497d?q=80&w=400"}}}}},
         {"id": 2, "attributes": {"ad": "Kapadokya", "Aciklama": "Peri bacaları ve sıcak hava balonlarıyla ünlü masalsı bölge.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
-        {"id": 3, "attributes": {"ad": "Kolezyum", "Aciklama": "İtalya'nın başkenti Roma'da bulunan devasa amfitiyatro.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1552832230-c0c97ddf357e?q=80&w=400"}}}}}
+        {"id": 3, "attributes": {"ad": "Kolezyum", "Aciklama": "İtalya'nın başkenti Roma'da bulunan devasa amfitiyatro.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1552832230-c0c97ddf357e?q=80&w=400"}}}}},
+        {"id": 4, "attributes": {"ad": "Ayasofya", "Aciklama": "İstanbul'un tarihi ve mimari simgesi, büyüleyici atmosfer.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1541432901042-0d8502573212?q=80&w=400"}}}}},
+        {"id": 5, "attributes": {"ad": "Tac Mahal", "Aciklama": "Hindistan'ın Agra şehrinde bulunan anıt mezar, aşkın sembolü.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1564507592333-c64657158f01?q=80&w=400"}}}}},
+        {"id": 6, "attributes": {"ad": "Petra", "Aciklama": "Ürdün'de kayalara oyulmuş antik şehir.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1574229672530-901ad9823467?q=80&w=400"}}}}},
+        {"id": 7, "attributes": {"ad": "Çin Seddi", "Aciklama": "Dünyanın en uzun savunma duvarı, tarihi harika.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=400"}}}}},
+        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Kamboçya'da yer alan devasa tapınak kompleksi.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}}
     ]
 else:
-    # İngilizce kısmı aynı yapıda tutuyoruz
+    # İngilizce kısmı için de aynı listeyi ekledim
     mekanlar_listesi = [
         {"id": 1, "attributes": {"ad": "Ephesus Ancient City", "Aciklama": "Historical ancient city located in Selcuk, Izmir.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1585464159976-13d6a457497d?q=80&w=400"}}}}},
         {"id": 2, "attributes": {"ad": "Cappadocia", "Aciklama": "Fairy tale region famous for fairy chimneys and hot air balloons.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
-        {"id": 3, "attributes": {"ad": "Colosseum", "Aciklama": "Massive amphitheater located in Rome, Italy.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1552832230-c0c97ddf357e?q=80&w=400"}}}}}]
+        {"id": 3, "attributes": {"ad": "Colosseum", "Aciklama": "Massive amphitheater located in Rome, Italy.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1552832230-c0c97ddf357e?q=80&w=400"}}}}},
+        {"id": 4, "attributes": {"ad": "Hagia Sophia", "Aciklama": "Iconic historical and architectural symbol of Istanbul.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1541432901042-0d8502573212?q=80&w=400"}}}}},
+        {"id": 5, "attributes": {"ad": "Taj Mahal", "Aciklama": "Famous monument in Agra, India, symbol of eternal love.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1564507592333-c64657158f01?q=80&w=400"}}}}},
+        {"id": 6, "attributes": {"ad": "Petra", "Aciklama": "Ancient city carved into rock in Jordan.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1574229672530-901ad9823467?q=80&w=400"}}}}},
+        {"id": 7, "attributes": {"ad": "Great Wall of China", "Aciklama": "The longest defensive wall in the world, a historical wonder.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=400"}}}}},
+        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Massive temple complex located in Cambodia.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}}]
 mekanlar = mekanlar_listesi
 
 # ÖNCE LİSTEYİ HESAPLA (Mevcut mekan isimlerini çıkar)
