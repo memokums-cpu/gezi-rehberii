@@ -1,16 +1,12 @@
 import streamlit as st
 import requests
 
-# --- SAYFA AYARLARI ---
 st.set_page_config(page_title="Gezi Rehberi | Travel Guide", page_icon="🌍", layout="wide")
 
 STRAPI_URL = "http://127.0.0.1:1337"
 
-# --- YARDIMCI FONKSİYONLAR ---
-
 @st.cache_data(ttl=5)
 def verileri_getir(dil_kodu):
-    """Seçilen dile göre tüm Place verilerini Strapi'den çeker."""
     try:
         url = f"{STRAPI_URL}/api/places"
         params = {
@@ -24,7 +20,6 @@ def verileri_getir(dil_kodu):
     except Exception as e:
         return None
 
-# --- SOL MENÜ (SIDEBAR) KONTROLLERİ ---
 st.sidebar.image("https://cdn-icons-png.flaticon.com/512/2060/2060284.png", width=100)
 st.sidebar.title("Ayarlar / Settings")
 
@@ -44,7 +39,6 @@ ui = {
     "bos": "Seçilen filtrede mekan bulunmuyor." if dil_kodu == "tr" else "No places found in this filter."
 }
 
-# --- VERİLERİ (GÜNCEL LİSTE - 8 MEKAN) ---
 if dil_kodu == "tr":
     mekanlar_listesi = [
         {"id": 2, "attributes": {"ad": "Kapadokya", "Aciklama": "Peri bacaları ve sıcak hava balonlarıyla ünlü masalsı bölge.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
@@ -54,11 +48,10 @@ if dil_kodu == "tr":
         {"id": 10, "attributes": {"ad": "Machu Picchu", "Aciklama": "And Dağları'nda yer alan antik İnka şehri.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=400"}}}}},
         {"id": 12, "attributes": {"ad": "Sydney Opera Binası", "Aciklama": "Sydney limanında, yelkenleri andıran ikonik mimariye sahip gösteri merkezi.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?q=80&w=400"}}}}},
         {"id": 15, "attributes": {"ad": "Santorini", "Aciklama": "Ege Denizi'nde, beyaz evleri ve eşsiz gün batımıyla ünlü ada.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400"}}}}}
-        
     ]
 else:
     mekanlar_listesi = [
-        {"id": 2, "attributes": {"ad": "Cappadocia", "Aciklama": "Fairy tale region famous for fairy chimneys and hot air balloons.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},      
+        {"id": 2, "attributes": {"ad": "Cappadocia", "Aciklama": "Fairy tale region famous for fairy chimneys and hot air balloons.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
         {"id": 7, "attributes": {"ad": "Great Wall of China", "Aciklama": "The longest defensive wall in the world, a historical wonder.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=400"}}}}},
         {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Massive temple complex located in Cambodia.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}},
         {"id": 9, "attributes": {"ad": "Eiffel Tower", "Aciklama": "Icon of Paris, one of the most visited structures in the world.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400"}}}}},
@@ -100,25 +93,18 @@ else:
         aciklama = veri.get('Aciklama', '...')
         puan = veri.get('Puan', 0)
         
-        # --- GÜNCEL GÖRSEL İŞLEME MANTIĞI ---
         try:
-            # Önce yolu alıyoruz
             temp_url = veri['KapakResmi']['data']['attributes']['url']
             
-            # Eğer 'http' ile başlıyorsa tam linktir (Unsplash), değilse Strapi yoludur
             if temp_url.startswith('http'):
                 resim_url = temp_url
             else:
                 resim_url = STRAPI_URL + temp_url
         except:
             resim_url = "https://via.placeholder.com/400x200?text=Gorsel+Yok"
-        # -----------------------------------
         
         with kolonlar[index % 3]:
             with st.container(border=True): 
-                # HATA AYIKLAMA: Görselin üstüne linki yazdırıyoruz (Bir kerelik)
-                # st.write(f"Yüklenmeye çalışılan: {resim_url}") 
-                
                 st.image(resim_url, use_container_width=True)
                 st.subheader(ad)
                 st.caption(f"⭐ **{ui['puan']}:** {puan} / 5")
