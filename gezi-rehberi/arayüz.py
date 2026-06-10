@@ -54,6 +54,10 @@ if dil_kodu == "tr":
         {"id": 10, "attributes": {"ad": "Machu Picchu", "Aciklama": "And Dağları'nda yer alan antik İnka şehri.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=400"}}}}},
         {"id": 12, "attributes": {"ad": "Sydney Opera Binası", "Aciklama": "Sydney limanında, yelkenleri andıran ikonik mimariye sahip gösteri merkezi.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?q=80&w=400"}}}}},
         {"id": 15, "attributes": {"ad": "Santorini", "Aciklama": "Ege Denizi'nde, beyaz evleri ve eşsiz gün batımıyla ünlü ada.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400"}}}}}
+        {"id": 16, "attributes": {"ad": "Büyük Kanyon", "Aciklama": "ABD'de bulunan, büyüleyici jeolojik oluşumlara sahip devasa kanyon.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1615551043360-33de8b56710b?q=80&w=400"}}}}},
+        {"id": 17, "attributes": {"ad": "Louvre Müzesi", "Aciklama": "Dünyanın en büyük sanat müzesi, Paris'in kalbinde yer alır.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=400"}}}}},
+        {"id": 18, "attributes": {"ad": "Banff Ulusal Parkı", "Aciklama": "Kanada'nın en eski milli parkı, muhteşem göller ve dağ manzaraları.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=400"}}}}},
+        {"id": 19, "attributes": {"ad": "Fushimi Inari", "Aciklama": "Kyoto'da binlerce turuncu torii kapısıyla ünlü ikonik tapınak.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1524413840807-0c3cb6fa508d?q=80&w=400"}}}}}
     ]
 else:
     mekanlar_listesi = [
@@ -63,7 +67,11 @@ else:
         {"id": 9, "attributes": {"ad": "Eiffel Tower", "Aciklama": "Icon of Paris, one of the most visited structures in the world.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400"}}}}},
         {"id": 10, "attributes": {"ad": "Machu Picchu", "Aciklama": "Ancient Incan city set high in the Andes Mountains.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=400"}}}}},
         {"id": 12, "attributes": {"ad": "Sydney Opera House", "Aciklama": "Iconic performing arts center in Sydney Harbour with sail-like design.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?q=80&w=400"}}}}},
-        {"id": 15, "attributes": {"ad": "Santorini", "Aciklama": "Famous island in the Aegean Sea known for its white houses and sunsets.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400"}}}}}]
+        {"id": 15, "attributes": {"ad": "Santorini", "Aciklama": "Famous island in the Aegean Sea known for its white houses and sunsets.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400"}}}}}
+        {"id": 16, "attributes": {"ad": "Grand Canyon", "Aciklama": "Massive canyon in the USA with breathtaking geological formations.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1615551043360-33de8b56710b?q=80&w=400"}}}}},
+        {"id": 17, "attributes": {"ad": "Louvre Museum", "Aciklama": "The world's largest art museum, located in the heart of Paris.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=400"}}}}},
+        {"id": 18, "attributes": {"ad": "Banff National Park", "Aciklama": "Canada's oldest national park, home to stunning lakes and mountains.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=400"}}}}},
+        {"id": 19, "attributes": {"ad": "Fushimi Inari", "Aciklama": "Famous temple in Kyoto, Japan, known for its thousands of orange torii gates.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1524413840807-0c3cb6fa508d?q=80&w=400"}}}}}]
 mekanlar = mekanlar_listesi
 
 mevcut_mekan_isimleri = []
