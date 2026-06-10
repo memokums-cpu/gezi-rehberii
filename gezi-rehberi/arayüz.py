@@ -49,15 +49,23 @@ ui = {
 }
 
 
-# --- VERİLERİ ÖNDEN ÇEKİYORUZ ---
-# Mekan listesini oluşturabilmek için önce tüm veriyi alıyoruz
-mekanlar = verileri_getir(dil_kodu)
-if mekanlar is None:
-    mekanlar_listesi = []
+# --- VERİLERİ (MOCK DATA) ---
+if dil_kodu == "tr":
+    mekanlar_listesi = [
+        {"id": 1, "attributes": {"ad": "Efes Antik Kenti", "Aciklama": "İzmir'in Selçuk ilçesinde bulunan büyüleyici tarihi antik kent.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://picsum.photos/400/200"}}}}},
+        {"id": 2, "attributes": {"ad": "Kapadokya", "Aciklama": "Peri bacaları ve sıcak hava balonlarıyla ünlü masalsı bölge.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://picsum.photos/400/200"}}}}},
+        {"id": 3, "attributes": {"ad": "Kolezyum", "Aciklama": "İtalya'nın başkenti Roma'da bulunan devasa amfitiyatro.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://picsum.photos/400/200"}}}}}
+    ]
 else:
-    mekanlar_listesi = mekanlar
+    mekanlar_listesi = [
+        {"id": 1, "attributes": {"ad": "Ephesus Ancient City", "Aciklama": "Historical ancient city located in Selcuk, Izmir.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://picsum.photos/400/200"}}}}},
+        {"id": 2, "attributes": {"ad": "Cappadocia", "Aciklama": "Fairy tale region famous for fairy chimneys and hot air balloons.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://picsum.photos/400/200"}}}}},
+        {"id": 3, "attributes": {"ad": "Colosseum", "Aciklama": "Massive amphitheater located in Rome, Italy.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://picsum.photos/400/200"}}}}}
+    ]
 
-# Strapi'deki mevcut mekanların isimlerini dinamik olarak listeliyoruz (Kolezyum, Çin Seddi vb.)
+mekanlar = mekanlar_listesi
+
+# ÖNCE LİSTEYİ HESAPLA (Mevcut mekan isimlerini çıkar)
 mevcut_mekan_isimleri = []
 for m in mekanlar_listesi:
     veri = m.get('attributes', m)
@@ -66,10 +74,10 @@ for m in mekanlar_listesi:
         mevcut_mekan_isimleri.append(ad_temp.strip())
 mevcut_mekan_isimleri = sorted(list(set(mevcut_mekan_isimleri)))
 
-# Sadece Mekan Filtresi Aktif
+# SONRA MENÜYÜ OLUŞTUR
 secilen_mekan = st.sidebar.selectbox(ui["filtre_mekan"], [ui["tum_mekanlar"]] + mevcut_mekan_isimleri)
 
-# Eğer spesifik bir mekan seçildiyse (Örn: Kolezyum), listeyi sadece o mekan kalacak şekilde daraltıyoruz
+# Eğer spesifik bir mekan seçildiyse filtrele
 if secilen_mekan != ui["tum_mekanlar"]:
     mekanlar_listesi = [
         m for m in mekanlar_listesi 
