@@ -54,7 +54,10 @@ if dil_kodu == "tr":
         {"id": 5, "attributes": {"ad": "Tac Mahal", "Aciklama": "Hindistan'ın Agra şehrinde bulunan anıt mezar, aşkın sembolü.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1564507592333-c64657158f01?q=80&w=400"}}}}},
         {"id": 6, "attributes": {"ad": "Petra", "Aciklama": "Ürdün'de kayalara oyulmuş antik şehir.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1574229672530-901ad9823467?q=80&w=400"}}}}},
         {"id": 7, "attributes": {"ad": "Çin Seddi", "Aciklama": "Dünyanın en uzun savunma duvarı, tarihi harika.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=400"}}}}},
-        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Kamboçya'da yer alan devasa tapınak kompleksi.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}}
+        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Kamboçya'da yer alan devasa tapınak kompleksi.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}},
+        {"id": 9, "attributes": {"ad": "Eyfel Kulesi", "Aciklama": "Paris'in simgesi, dünyanın en çok ziyaret edilen yapılarından.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400"}}}}},
+        {"id": 10, "attributes": {"ad": "Machu Picchu", "Aciklama": "And Dağları'nda yer alan antik İnka şehri.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=400"}}}}},
+        {"id": 11, "attributes": {"ad": "Giza Piramitleri", "Aciklama": "Antik dünyanın yedi harikasından biri, Mısır.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1503174971373-b1f69850b8e3?q=80&w=400"}}}}}
     ]
 else:
     mekanlar_listesi = [
@@ -65,7 +68,10 @@ else:
         {"id": 5, "attributes": {"ad": "Taj Mahal", "Aciklama": "Famous monument in Agra, India, symbol of eternal love.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1564507592333-c64657158f01?q=80&w=400"}}}}},
         {"id": 6, "attributes": {"ad": "Petra", "Aciklama": "Ancient city carved into rock in Jordan.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1574229672530-901ad9823467?q=80&w=400"}}}}},
         {"id": 7, "attributes": {"ad": "Great Wall of China", "Aciklama": "The longest defensive wall in the world, a historical wonder.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=400"}}}}},
-        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Massive temple complex located in Cambodia.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}}]
+        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Massive temple complex located in Cambodia.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}},
+        {"id": 9, "attributes": {"ad": "Eiffel Tower", "Aciklama": "Icon of Paris, one of the most visited structures in the world.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400"}}}}},
+        {"id": 10, "attributes": {"ad": "Machu Picchu", "Aciklama": "Ancient Incan city set high in the Andes Mountains.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=400"}}}}},
+        {"id": 11, "attributes": {"ad": "Pyramids of Giza", "Aciklama": "One of the seven wonders of the ancient world, Egypt.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1503174971373-b1f69850b8e3?q=80&w=400"}}}}}]
 mekanlar = mekanlar_listesi
 
 mevcut_mekan_isimleri = []
