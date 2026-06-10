@@ -109,10 +109,19 @@ else:
         kapak_resmi = veri.get('KapakResmi')
         
         if kapak_resmi:
+            # Önce resim yolunu alıyoruz
+            temp_url = ""
             if isinstance(kapak_resmi, dict) and 'url' in kapak_resmi:
-                resim_url = STRAPI_URL + kapak_resmi['url']
+                temp_url = kapak_resmi['url']
             elif isinstance(kapak_resmi, dict) and 'data' in kapak_resmi and kapak_resmi['data']:
-                resim_url = STRAPI_URL + kapak_resmi['data']['attributes']['url']
+                temp_url = kapak_resmi['data']['attributes']['url']
+            
+            # EĞER URL ZATEN HTTP İLE BAŞLIYORSA (yani tam link ise), başına Strapi URL'si ekleme!
+            if temp_url.startswith('http'):
+                resim_url = temp_url
+            else:
+                # Sadece yerel dosyalar (Strapi'den gelenler) için başına ekle
+                resim_url = STRAPI_URL + temp_url
 
         with kolonlar[index % 3]:
             with st.container(border=True): 
