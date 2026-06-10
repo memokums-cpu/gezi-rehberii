@@ -13,20 +13,16 @@ def verileri_getir(dil_kodu):
     """Seçilen dile göre tüm Place verilerini Strapi'den çeker."""
     try:
         url = f"{STRAPI_URL}/api/places"
-        
         params = {
             "populate": "*",
             "locale": dil_kodu
         }
-            
         cevap = requests.get(url, params=params)
-        
         if cevap.status_code == 200:
             return cevap.json().get('data', [])
         return None
     except Exception as e:
         return None
-
 
 # --- SOL MENÜ (SIDEBAR) KONTROLLERİ ---
 st.sidebar.image("https://cdn-icons-png.flaticon.com/512/2060/2060284.png", width=100)
@@ -48,9 +44,6 @@ ui = {
     "bos": "Seçilen filtrede mekan bulunmuyor." if dil_kodu == "tr" else "No places found in this filter."
 }
 
-
-# --- VERİLERİ (MOCK DATA) ---
-# --- VERİLERİ (MOCK DATA) ---
 # --- VERİLERİ (GÜNCEL LİSTE - 8 MEKAN) ---
 if dil_kodu == "tr":
     mekanlar_listesi = [
@@ -64,7 +57,6 @@ if dil_kodu == "tr":
         {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Kamboçya'da yer alan devasa tapınak kompleksi.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}}
     ]
 else:
-    # İngilizce kısmı için de aynı listeyi ekledim
     mekanlar_listesi = [
         {"id": 1, "attributes": {"ad": "Ephesus Ancient City", "Aciklama": "Historical ancient city located in Selcuk, Izmir.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1585464159976-13d6a457497d?q=80&w=400"}}}}},
         {"id": 2, "attributes": {"ad": "Cappadocia", "Aciklama": "Fairy tale region famous for fairy chimneys and hot air balloons.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
@@ -76,7 +68,6 @@ else:
         {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Massive temple complex located in Cambodia.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}}]
 mekanlar = mekanlar_listesi
 
-# ÖNCE LİSTEYİ HESAPLA (Mevcut mekan isimlerini çıkar)
 mevcut_mekan_isimleri = []
 for m in mekanlar_listesi:
     veri = m.get('attributes', m)
@@ -85,18 +76,14 @@ for m in mekanlar_listesi:
         mevcut_mekan_isimleri.append(ad_temp.strip())
 mevcut_mekan_isimleri = sorted(list(set(mevcut_mekan_isimleri)))
 
-# SONRA MENÜYÜ OLUŞTUR
 secilen_mekan = st.sidebar.selectbox(ui["filtre_mekan"], [ui["tum_mekanlar"]] + mevcut_mekan_isimleri)
 
-# Eğer spesifik bir mekan seçildiyse filtrele
 if secilen_mekan != ui["tum_mekanlar"]:
     mekanlar_listesi = [
         m for m in mekanlar_listesi 
         if m.get('attributes', m).get('ad', '').strip() == secilen_mekan
     ]
 
-
-# --- ANA EKRAN ---
 st.title(ui["baslik"])
 st.markdown(ui["alt_baslik"])
 st.divider()
@@ -114,12 +101,19 @@ else:
         aciklama = veri.get('Aciklama', '...')
         puan = veri.get('Puan', 0)
         
-        # GÖRSELİ GÜVENLİ ÇEKME MANTIĞI
-        # Tüm yapıyı tek bir standartta okuyoruz
+        # --- GÜNCEL GÖRSEL İŞLEME MANTIĞI ---
         try:
-            resim_url = veri['KapakResmi']['data']['attributes']['url']
+            # Önce yolu alıyoruz
+            temp_url = veri['KapakResmi']['data']['attributes']['url']
+            
+            # Eğer 'http' ile başlıyorsa tam linktir (Unsplash), değilse Strapi yoludur
+            if temp_url.startswith('http'):
+                resim_url = temp_url
+            else:
+                resim_url = STRAPI_URL + temp_url
         except:
             resim_url = "https://via.placeholder.com/400x200?text=Gorsel+Yok"
+        # -----------------------------------
         
         with kolonlar[index % 3]:
             with st.container(border=True): 
