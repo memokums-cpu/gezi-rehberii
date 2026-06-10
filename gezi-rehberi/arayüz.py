@@ -117,6 +117,9 @@ else:
         
         with kolonlar[index % 3]:
             with st.container(border=True): 
+                # HATA AYIKLAMA: Görselin üstüne linki yazdırıyoruz (Bir kerelik)
+                # st.write(f"Yüklenmeye çalışılan: {resim_url}") 
+                
                 st.image(resim_url, use_container_width=True)
                 st.subheader(ad)
                 st.caption(f"⭐ **{ui['puan']}:** {puan} / 5")
