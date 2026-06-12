@@ -1,116 +1,193 @@
-import streamlit as st
 import requests
+from deep_translator import GoogleTranslator
+import urllib.request
+import urllib.parse
+import g4f
 
-st.set_page_config(page_title="Gezi Rehberi | Travel Guide", page_icon="🌍", layout="wide")
-
+# --- AYARLAR ---
 STRAPI_URL = "http://127.0.0.1:1337"
+STRAPI_TOKEN = "aa268b71da8cd7d4192756a0168245ecb27ebfcc603beac2ea3e65e40ca127b6fe8778ddce0539ab06398a7977123e8adddad4866cd0a5281bd305e7708d25b5f211c630d0514efdb0bc49ffd3d084ba2a44a6fd96c655a43af8c47d26efe867bb8c84b0ff2b9f926faac335af0c0939f8652400bae85252b80c42c64d1c9dc1" # DİKKAT: Kendi şifreni girmeyi unutma!
 
-@st.cache_data(ttl=5)
-def verileri_getir(dil_kodu):
-    try:
-        url = f"{STRAPI_URL}/api/places"
-        params = {
-            "populate": "*",
-            "locale": dil_kodu
-        }
-        cevap = requests.get(url, params=params)
-        if cevap.status_code == 200:
-            return cevap.json().get('data', [])
-        return None
-    except Exception as e:
-        return None
-
-st.sidebar.image("https://cdn-icons-png.flaticon.com/512/2060/2060284.png", width=100)
-st.sidebar.title("Ayarlar / Settings")
-
-dil_secimi = st.sidebar.radio("Dil / Language", ["Türkçe", "English"])
-dil_kodu = "en" if dil_secimi == "English" else "tr"
-
-st.sidebar.divider()
-
-ui = {
-    "baslik": "🌍 Yapay Zeka Destekli Gezi Rehberi" if dil_kodu == "tr" else "🌍 AI Powered Travel Guide",
-    "alt_baslik": "*Otonom olarak üretilmiş içerikler galerisi*" if dil_kodu == "tr" else "*Gallery of autonomously generated content*",
-    "filtre_mekan": "🏛️ Mekan Filtresi" if dil_kodu == "tr" else "🏛️ Place Filter",
-    "tum_mekanlar": "Tüm Mekanlar" if dil_kodu == "tr" else "All Places",
-    "puan": "Puan" if dil_kodu == "tr" else "Rating",
-    "detay_buton": "Detayları Gör" if dil_kodu == "tr" else "View Details",
-    "hata": "🚨 Veriler çekilemedi! Strapi sunucusu çalışmıyor olabilir." if dil_kodu == "tr" else "🚨 Data could not be fetched! Strapi server might be down.",
-    "bos": "Seçilen filtrede mekan bulunmuyor." if dil_kodu == "tr" else "No places found in this filter."
+HEADERS = {
+    "Authorization": f"Bearer {STRAPI_TOKEN}",
+    "Content-Type": "application/json"
 }
 
-if dil_kodu == "tr":
-    mekanlar_listesi = [
-        {"id": 2, "attributes": {"ad": "Kapadokya", "Aciklama": "Peri bacaları ve sıcak hava balonlarıyla ünlü masalsı bölge.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
-        {"id": 7, "attributes": {"ad": "Çin Seddi", "Aciklama": "Dünyanın en uzun savunma duvarı, tarihi harika.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=400"}}}}},
-        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Kamboçya'da yer alan devasa tapınak kompleksi.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}},
-        {"id": 9, "attributes": {"ad": "Eyfel Kulesi", "Aciklama": "Paris'in simgesi, dünyanın en çok ziyaret edilen yapılarından.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400"}}}}},
-        {"id": 10, "attributes": {"ad": "Machu Picchu", "Aciklama": "And Dağları'nda yer alan antik İnka şehri.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=400"}}}}},
-        {"id": 12, "attributes": {"ad": "Sydney Opera Binası", "Aciklama": "Sydney limanında, yelkenleri andıran ikonik mimariye sahip gösteri merkezi.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?q=80&w=400"}}}}},
-        {"id": 15, "attributes": {"ad": "Santorini", "Aciklama": "Ege Denizi'nde, beyaz evleri ve eşsiz gün batımıyla ünlü ada.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400"}}}}}
-    ]
-else:
-    mekanlar_listesi = [
-        {"id": 2, "attributes": {"ad": "Cappadocia", "Aciklama": "Fairy tale region famous for fairy chimneys and hot air balloons.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=400"}}}}},
-        {"id": 7, "attributes": {"ad": "Great Wall of China", "Aciklama": "The longest defensive wall in the world, a historical wonder.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=400"}}}}},
-        {"id": 8, "attributes": {"ad": "Angkor Wat", "Aciklama": "Massive temple complex located in Cambodia.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=400"}}}}},
-        {"id": 9, "attributes": {"ad": "Eiffel Tower", "Aciklama": "Icon of Paris, one of the most visited structures in the world.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=400"}}}}},
-        {"id": 10, "attributes": {"ad": "Machu Picchu", "Aciklama": "Ancient Incan city set high in the Andes Mountains.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=400"}}}}},
-        {"id": 12, "attributes": {"ad": "Sydney Opera House", "Aciklama": "Iconic performing arts center in Sydney Harbour with sail-like design.", "Puan": 4, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?q=80&w=400"}}}}},
-        {"id": 15, "attributes": {"ad": "Santorini", "Aciklama": "Famous island in the Aegean Sea known for its white houses and sunsets.", "Puan": 5, "KapakResmi": {"data": {"attributes": {"url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=400"}}}}}]
-mekanlar = mekanlar_listesi
+# LİSTE SADELEŞTİ: Artık 'aciklama' kısımları yok, onları yapay zeka anlık üretecek!
+mekanlar = [
+    {"ad": "Kolezyum", "sehir": "Roma", "sehir_bilgi": "Tarihin kalbinin attığı, antik Roma İmparatorluğu'nun ebedi başkenti.", "puan": 5},
+    {"ad": "Machu Picchu", "sehir": "Cusco", "sehir_bilgi": "And Dağları'nın zirvesinde, İnka medeniyetinin bulutlar arasındaki gizemli şehri.", "puan": 5},
+    {"ad": "Giza Piramitleri", "sehir": "Kahire", "sehir_bilgi": "Antik dünyanın yedi harikasından ayakta kalan efsaneye ev sahipliği yapan çöl şehri.", "puan": 5},
+    {"ad": "Tac Mahal", "sehir": "Agra", "sehir_bilgi": "Aşkın mermere kazındığı, Babür İmparatorluğu'nun ihtişamlı ve masalsı durağı.", "puan": 4},
+    {"ad": "Çin Seddi", "sehir": "Pekin", "sehir_bilgi": "Uzak Doğu'nun gizemi ve binlerce yıllık Çin hanedanlıklarının kadim merkezi.", "puan": 5},
+    {"ad": "Petra Antik Kenti", "sehir": "Vadi Musa", "sehir_bilgi": "Kızıl kayalara oyulmuş, çölün ortasında parlayan efsanevi Nebati başkenti.", "puan": 5},
+    {"ad": "Chichen Itza", "sehir": "Yucatan", "sehir_bilgi": "Maya astronomisinin ve mimarisinin tropikal ormanların içindeki büyüleyici mirası.", "puan": 4},
+    {"ad": "Akropolis", "sehir": "Atina", "sehir_bilgi": "Batı medeniyetinin ve demokrasinin doğduğu, felsefe ve sanatın beşiği.", "puan": 4},
+    {"ad": "Angkor Wat", "sehir": "Siem Reap", "sehir_bilgi": "Güneydoğu Asya'nın devasa tapınaklarla dolu, ormanların kucakladığı mistik diyarı.", "puan": 5},
+    {"ad": "Stonehenge", "sehir": "Salisbury", "sehir_bilgi": "İngiltere'nin yemyeşil ovalarında, binlerce yıllık astronomik sırları barındıran bölge.", "puan": 3}
+]
 
-mevcut_mekan_isimleri = []
-for m in mekanlar_listesi:
-    veri = m.get('attributes', m)
-    ad_temp = veri.get('ad', '')
-    if ad_temp and isinstance(ad_temp, str):
-        mevcut_mekan_isimleri.append(ad_temp.strip())
-mevcut_mekan_isimleri = sorted(list(set(mevcut_mekan_isimleri)))
+# --- YAPAY ZEKA METİN ÜRETİCİ (YENİ MODÜL) ---
 
-secilen_mekan = st.sidebar.selectbox(ui["filtre_mekan"], [ui["tum_mekanlar"]] + mevcut_mekan_isimleri)
 
-if secilen_mekan != ui["tum_mekanlar"]:
-    mekanlar_listesi = [
-        m for m in mekanlar_listesi 
-        if m.get('attributes', m).get('ad', '').strip() == secilen_mekan
-    ]
+import os
+from groq import Groq
 
-st.title(ui["baslik"])
-st.markdown(ui["alt_baslik"])
-st.divider()
+# Groq'tan aldığın API anahtarını buraya ekle
+api_anahtari = "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"
+client = Groq(api_key=api_anahtari)
 
-if mekanlar is None:
-    st.error(ui["hata"])
-elif len(mekanlar_listesi) == 0:
-    st.warning(ui["bos"])
-else:
-    kolonlar = st.columns(3)
+def metin_uret(mekan_adi, sehir):
+    print(f"\n[1/5] [Yapay Zeka] {mekan_adi} için Türkçe tanıtım metni yazılıyor...")
+    prompt = f"Bana {sehir} şehrinde bulunan {mekan_adi} hakkında, turistik ve ilgi çekici Türkçe bir mekan açıklaması yaz. Sadece 2 cümlelik, akıcı bir tanıtım olsun."
+
+    try:
+        # Llama 3 modelini kullanarak metin üretiyoruz
+        cevap = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="llama-3.1-8b-instant",# Hızlı ve başarılı bir model
+        )
+
+        uretilen_metin = cevap.choices[0].message.content.strip()
+        print(f"    -> Başarılı! Üretilen Metin: {uretilen_metin}")
+        return uretilen_metin
+
+    except Exception as e:
+        print(f"    -> HATA: Groq API'sine ulaşılamadı ({e})")
+        return f"{mekan_adi}, {sehir} ilinde mutlaka görülmesi gereken muazzam bir turistik mekandır."
+
+# --- YAPAY ZEKA GÖRSEL ÜRETİCİ ---
+# --- GÖRSEL ÜRETİCİ (GÜNCELLENDİ) ---
+def gorsel_uret(mekan_adi):
+    print(f"[2/5] [Görsel] {mekan_adi} için ücretsiz test görseli indiriliyor...")
+
+    # AI yerine şimdilik test amaçlı, mekan adına göre bir görsel çekiyoruz
+    import urllib.parse
+    safe_mekan_adi = urllib.parse.quote_plus(mekan_adi)
+    url = f"https://loremflickr.com/800/600/{safe_mekan_adi}"
     
-    for index, mekan in enumerate(mekanlar_listesi):
-        veri = mekan.get('attributes', mekan)
-        ad = veri.get('ad', '...')
-        aciklama = veri.get('Aciklama', '...')
-        puan = veri.get('Puan', 0)
-        
-        try:
-            temp_url = veri['KapakResmi']['data']['attributes']['url']
+    dosya_adi = f"{mekan_adi.replace(' ', '_').lower()}.jpg"
+
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    try:
+        with urllib.request.urlopen(req) as response, open(dosya_adi, 'wb') as out_file:
+            out_file.write(response.read())
+        print(f"       -> Başarılı! Görsel indirildi: {dosya_adi}")
+        return dosya_adi
+    except Exception as e:
+        print(f"       -> HATA: Görsel üretilemedi ({e})")
+        return None
+
+# --- STRAPI MEDYA YÜKLEME ---
+def strapiye_gorsel_yukle(dosya_yolu):
+    if not dosya_yolu: return None
+    print(f"[3/5] {dosya_yolu} Strapi'ye yükleniyor...")
+    url = f"{STRAPI_URL}/api/upload"
+    auth_header = {"Authorization": f"Bearer {STRAPI_TOKEN}"}
+    
+    try:
+        with open(dosya_yolu, 'rb') as f:
+            files = {'files': (dosya_yolu, f, 'image/jpeg')}
+            cevap = requests.post(url, headers=auth_header, files=files)
             
-            if temp_url.startswith('http'):
-                resim_url = temp_url
-            else:
-                resim_url = STRAPI_URL + temp_url
-        except:
-            resim_url = "https://via.placeholder.com/400x200?text=Gorsel+Yok"
+        if cevap.ok:
+            return cevap.json()[0]['id']
+        else:
+            return None
+    except Exception:
+        return None
+
+# --- DİNAMİK ŞEHİR YÖNETİMİ ---
+def sehir_id_al_veya_olustur(sehir_adi, sehir_bilgi):
+    print(f"{sehir_adi} şehri veritabanında kontrol ediliyor...")
+    # 'Ad' yerine 'ad' olarak güncellendi
+    check_url = f"{STRAPI_URL}/api/cities?filters[ad][$eq]={sehir_adi}"
+    cevap = requests.get(check_url, headers=HEADERS)
+    
+    if cevap.ok and cevap.json().get('data'):
+        return cevap.json()['data'][0]['id']
         
-        with kolonlar[index % 3]:
-            with st.container(border=True): 
-                st.image(resim_url, use_container_width=True)
-                st.subheader(ad)
-                st.caption(f"⭐ **{ui['puan']}:** {puan} / 5")
-                
-                if aciklama:
-                    kisa_aciklama = aciklama[:150] + "..." if len(aciklama) > 150 else aciklama
-                    st.write(kisa_aciklama)
-                
-                st.button(ui["detay_buton"], key=f"btn_{mekan.get('id', index)}")
+    create_url = f"{STRAPI_URL}/api/cities"
+    # Strapi paneline göre: ad, ulke ve KisaBilgi olarak değiştirildi
+    payload = {"data": {"ad": sehir_adi, "ulke": "Türkiye", "KisaBilgi": sehir_bilgi}}
+    
+    cevap_create = requests.post(create_url, json=payload, headers=HEADERS)
+    if cevap_create.ok:
+        return cevap_create.json()['data']['id']
+    else:
+        print(f"      -> STRAPI HATASI (Şehir Oluşturma): {cevap_create.status_code} - {cevap_create.text}")
+        return None
+
+# --- VERİTABANINA BİRLEŞİK KAYIT FONKSİYONU ---
+def icerigi_strapiye_kaydet(mekan, turkce_aciklama, ingilizce_aciklama, gorsel_id, sehir_id):
+    print(f"[5/5] {mekan['ad']} tüm verileriyle veritabanına yazılıyor...")
+    url = f"{STRAPI_URL}/api/places"
+    
+    # NOT: Place tablonuzda mekanın adını tutan alanın 'ad' olduğunu varsaydım.
+    # Eğer Strapi panelinde o alanın adı farklıysa (örn: Mekan_Adi) aşağıdaki "ad" kısmını değiştir.
+    data_payload = {
+        "ad": mekan['ad'], 
+        "Aciklama": turkce_aciklama, # Paneldeki gibi büyük A
+        "Puan": mekan['puan'],       # Paneldeki gibi büyük P
+        "city": sehir_id             # Paneldeki gibi küçük city
+    }
+    
+    if gorsel_id:
+        # 'Kapak_Resmi' yerine paneldeki gibi birleşik 'KapakResmi' yapıldı
+        data_payload["KapakResmi"] = gorsel_id
+        
+    payload_tr = {"data": data_payload}
+    cevap_tr = requests.post(url, json=payload_tr, headers=HEADERS)
+    
+    if cevap_tr.ok:
+        document_id = cevap_tr.json()['data']['documentId']
+        print(f"      -> MÜKEMMEL! Türkçe mekan kaydedildi. (Document ID: {document_id})")
+        
+        ing_url = f"{STRAPI_URL}/api/places/{document_id}?locale=en"
+        payload_en = {
+            "data": {
+                "ad": mekan['ad'],
+                "Aciklama": ingilizce_aciklama 
+            }
+        }
+        cevap_en = requests.put(ing_url, json=payload_en, headers=HEADERS)
+        if cevap_en.ok:
+            print(f"      -> İngilizce çeviri başarıyla sisteme bağlandı!")
+        else:
+            print(f"      -> HATA: İngilizce çeviri eklenemedi: {cevap_en.text}")
+    else:
+        print(f"      -> HATA: Türkçe mekan kaydedilemedi! API Cevabı: {cevap_tr.text}")
+
+# --- ANA MOTORU ÇALIŞTIRMA ---
+print("\n" + "="*60)
+print("🚀 %100 OTONOM İÇERİK VE GÖRSEL MOTORU BAŞLATILDI")
+print("="*60)
+
+for mekan in mekanlar:
+    # 1. Metni AI ile Üret
+    turkce_aciklama = metin_uret(mekan['ad'], mekan['sehir'])
+    
+    # 2. Üretilen Metni İngilizceye Çevir
+    ingilizce_aciklama = GoogleTranslator(source='tr', target='en').translate(turkce_aciklama)
+    
+    # 3. Görseli AI ile Çiz
+    gorsel_yolu = gorsel_uret(mekan['ad'])
+    
+    # 4. Şehri Kontrol Et / Oluştur
+    sehir_id = sehir_id_al_veya_olustur(mekan['sehir'], mekan['sehir_bilgi'])
+    
+    if sehir_id:
+        # 5. Görseli Yükle ve Veritabanına Yaz
+        gorsel_id = strapiye_gorsel_yukle(gorsel_yolu)
+        icerigi_strapiye_kaydet(mekan, turkce_aciklama, ingilizce_aciklama, gorsel_id, sehir_id)
+    else:
+        print(f"!!! KRİTİK HATA: Şehir ID alınamadığı için {mekan['ad']} atlanıyor.")
+        
+    print("-" * 60)
+
+print("\n🏁 TÜM İŞLEMLER BAŞARIYLA TAMAMLANDI!")
