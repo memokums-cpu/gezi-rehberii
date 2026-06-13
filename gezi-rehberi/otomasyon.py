@@ -15,16 +15,16 @@ HEADERS = {
 
 # LİSTE SADELEŞTİ: Artık 'aciklama' kısımları yok, onları yapay zeka anlık üretecek!
 mekanlar = [
-    {"ad": "Kolezyum", "sehir": "Roma", "sehir_bilgi": "Tarihin kalbinin attığı, antik Roma İmparatorluğu'nun ebedi başkenti.", "puan": 5},
-    {"ad": "Machu Picchu", "sehir": "Cusco", "sehir_bilgi": "And Dağları'nın zirvesinde, İnka medeniyetinin bulutlar arasındaki gizemli şehri.", "puan": 5},
-    {"ad": "Giza Piramitleri", "sehir": "Kahire", "sehir_bilgi": "Antik dünyanın yedi harikasından ayakta kalan efsaneye ev sahipliği yapan çöl şehri.", "puan": 5},
-    {"ad": "Tac Mahal", "sehir": "Agra", "sehir_bilgi": "Aşkın mermere kazındığı, Babür İmparatorluğu'nun ihtişamlı ve masalsı durağı.", "puan": 4},
-    {"ad": "Çin Seddi", "sehir": "Pekin", "sehir_bilgi": "Uzak Doğu'nun gizemi ve binlerce yıllık Çin hanedanlıklarının kadim merkezi.", "puan": 5},
-    {"ad": "Petra Antik Kenti", "sehir": "Vadi Musa", "sehir_bilgi": "Kızıl kayalara oyulmuş, çölün ortasında parlayan efsanevi Nebati başkenti.", "puan": 5},
-    {"ad": "Chichen Itza", "sehir": "Yucatan", "sehir_bilgi": "Maya astronomisinin ve mimarisinin tropikal ormanların içindeki büyüleyici mirası.", "puan": 4},
-    {"ad": "Akropolis", "sehir": "Atina", "sehir_bilgi": "Batı medeniyetinin ve demokrasinin doğduğu, felsefe ve sanatın beşiği.", "puan": 4},
-    {"ad": "Angkor Wat", "sehir": "Siem Reap", "sehir_bilgi": "Güneydoğu Asya'nın devasa tapınaklarla dolu, ormanların kucakladığı mistik diyarı.", "puan": 5},
-    {"ad": "Stonehenge", "sehir": "Salisbury", "sehir_bilgi": "İngiltere'nin yemyeşil ovalarında, binlerce yıllık astronomik sırları barındıran bölge.", "puan": 3}
+    {"ad": "Kolezyum", "sehir": "Roma", "sehir_bilgi": "", "puan": 5},
+    {"ad": "Machu Picchu", "sehir": "Cusco", "sehir_bilgi": "", "puan": 5},
+    {"ad": "Giza Piramitleri", "sehir": "Kahire", "sehir_bilgi": "", "puan": 5},
+    {"ad": "Tac Mahal", "sehir": "Agra", "sehir_bilgi": "", "puan": 4},
+    {"ad": "Çin Seddi", "sehir": "Pekin", "sehir_bilgi": "", "puan": 5},
+    {"ad": "Petra Antik Kenti", "sehir": "Vadi Musa", "sehir_bilgi": "", "puan": 5},
+    {"ad": "Chichen Itza", "sehir": "Yucatan", "sehir_bilgi": "", "puan": 4},
+    {"ad": "Akropolis", "sehir": "Atina", "sehir_bilgi": "", "puan": 4},
+    {"ad": "Angkor Wat", "sehir": "Siem Reap", "sehir_bilgi": "", "puan": 5},
+    {"ad": "Stonehenge", "sehir": "Salisbury", "sehir_bilgi": "", "puan": 3}
 ]
 
 # --- YAPAY ZEKA METİN ÜRETİCİ (YENİ MODÜL) ---
