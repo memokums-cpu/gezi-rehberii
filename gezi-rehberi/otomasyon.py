@@ -5,15 +5,15 @@ import urllib.parse
 import g4f
 
 # --- AYARLAR ---
-STRAPI_URL = "http://127.0.0.1:1337"
-STRAPI_TOKEN = "aa268b71da8cd7d4192756a0168245ecb27ebfcc603beac2ea3e65e40ca127b6fe8778ddce0539ab06398a7977123e8adddad4866cd0a5281bd305e7708d25b5f211c630d0514efdb0bc49ffd3d084ba2a44a6fd96c655a43af8c47d26efe867bb8c84b0ff2b9f926faac335af0c0939f8652400bae85252b80c42c64d1c9dc1" # DİKKAT: Kendi şifreni girmeyi unutma!
+STRAPI_URL = "https://gezi-rehberne-d.onrender.com"
+STRAPI_TOKEN = "172eaf36a80ecb27e9e9b57b78c5a782adbc79f474f46ef902fbf1c40a80d5826e2aa2e468a24b5836a373e0afb8cac80096300059477825b9668932949053ba71d2df316245c95ea60c6127e9e3353a362c423632526e864c71ad6f9403c3f9246252ffdf0024e7e464bf70b4260c02ad79fd6b279e4f0ee93c714b7350e150" # DİKKAT: Kendi şifreni girmeyi unutma!
 
 HEADERS = {
     "Authorization": f"Bearer {STRAPI_TOKEN}",
     "Content-Type": "application/json"
 }
 
-# LİSTE SADELEŞTİ: Artık 'aciklama' kısımları yok, onları yapay zeka anlık üretecek!
+
 mekanlar = [
     {"ad": "Kolezyum", "sehir": "Roma", "sehir_bilgi": "", "puan": 5},
     {"ad": "Machu Picchu", "sehir": "Cusco", "sehir_bilgi": "", "puan": 5},
@@ -27,13 +27,13 @@ mekanlar = [
     {"ad": "Stonehenge", "sehir": "Salisbury", "sehir_bilgi": "", "puan": 3}
 ]
 
-# --- YAPAY ZEKA METİN ÜRETİCİ (YENİ MODÜL) ---
+
 
 
 import os
 from groq import Groq
 
-# Groq'tan aldığın API anahtarını buraya ekle
+
 api_anahtari = "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"
 client = Groq(api_key=api_anahtari)
 
